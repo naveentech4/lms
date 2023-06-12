@@ -12,8 +12,13 @@ pipeline {
 
         stage('Build LMS') {
             steps {
-                echo 'Building..'
-                sh 'cd webapp && npm install && npm run build'                
+                script{
+                    echo 'Building..'
+                    def packageJson=readJSON file:'webapp/package.json'
+                    def packageJSONVersion=packageJson.version
+                    sh "echo '${packageJSONVersion}'"
+                    sh 'cd webapp && npm install && npm run build'                
+                }                
             }
         }
 
