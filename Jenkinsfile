@@ -25,7 +25,11 @@ pipeline {
         stage('Release LMS') {
             steps {
                 script {
-                    echo "Releasing.."                           
+                    echo "Releasing.."  
+                    def packageJson=readJSON file:'webapp/package.json'
+                    def packageJSONVersion=packageJson.version  
+                    sh "cd webapp && zip dist-${packageJSONVersion}.zip -r dist"
+                    sh 'ls webapp'                       
             }
             }
         }
